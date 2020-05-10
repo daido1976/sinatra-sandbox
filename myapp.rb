@@ -1,11 +1,19 @@
 # frozen_string_literal: true
 
 require 'json'
+require 'rack/cors'
 require 'sinatra'
 require 'sinatra/reloader' if development?
 require './post'
 
 enable :sessions
+
+use Rack::Cors do
+  allow do
+    origins 'http://localhost:4567'
+    resource '*', headers: :any, methods: :any, credentials: true
+  end
+end
 
 get '/' do
   send_file "#{Sinatra::Application.public_dir}/index.html"
